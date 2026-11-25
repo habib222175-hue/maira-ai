@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b18">
+<title>Maira AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080b18;color:white;font-family:Arial,sans-serif}
+header{padding:22px;background:#11172b;border-bottom:1px solid #303858}
+h2{margin:0;color:#9c8cff}
+header p{color:#aaa;margin-bottom:0}
+main{max-width:650px;margin:auto;padding:18px}
+#chat{height:65vh;overflow:auto;padding:10px}
+.msg{padding:13px;margin:12px 0;border-radius:15px;line-height:1.5;max-width:90%;white-space:pre-wrap}
+.bot{background:#202944;border:1px solid #5145a0}
+.user{background:#493c9a;margin-left:auto}
+.controls{display:flex;gap:8px;position:sticky;bottom:0;background:#080b18;padding:10px 0}
+input{min-width:0;flex:1;background:#171e32;color:white;border:1px solid #6657bd;border-radius:12px;padding:14px;font-size:16px}
+button{background:#7259e8;color:white;border:0;border-radius:12px;padding:12px;font-size:16px}
+button:active{opacity:.7}
+</style>
+</head>
+<body>
+<header>
+<h2>✦ MAIRA AI</h2>
+<p>Your Personal AI Assistant</p>
+</header>
+<main>
+<div id="chat">
+<div class="msg bot">হ্যালো! আমি Maira AI। 💜
+আমি তোমার ব্যক্তিগত AI সহকারী।
+আমাকে কিছু জিজ্ঞেস করো!</div>
+</div>
+<div class="controls">
+<input id="message" placeholder="এখানে লিখো..." />
+<button onclick="send()">➤</button>
+<button onclick="voice()">🎤</button>
+</div>
+</main>
+<script>
+const chat=document.getElementById('chat');
+const input=document.getElementById('message');
+
+function add(text,type){
+ const d=document.createElement('div');
+ d.className='msg '+type;
+ d.textContent=text;
+ chat.appendChild(d);
+ chat.scrollTop=chat.scrollHeight;
+}
+
+function send(){
+ const text=input.value.trim();
+ if(!text)return;
+ add(text,'user');
+ input.value='';
+ add('তোমার মেসেজ পেয়েছি! AI সার্ভার সংযোগ পরের ধাপে চালু করব। 💜','bot');
+}
+
+input.addEventListener('keydown',e=>{
+ if(e.key==='Enter')send();
+});
+
+function voice(){
+ const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Speech){add('তোমার ব্রাউজারে Voice Input সমর্থিত নয়।','bot');return;}
+ const r=new Speech();
+ r.lang='bn-BD';
+ r.onresult=e=>{
+ input.value=e.results[0][0].transcript;
+ send();
+ };
+ r.start();
+}
+</script>
+</body>
+  </html>
